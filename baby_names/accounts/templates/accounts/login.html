@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+
+{% block content %}
+<div class="container" style='min-height:100vh;'>
+  <div class="row p-3 " style="height: 15vh"></div>
+  <div class="container bg-1 p-4 border-round">
+    <h1>Login</h1>
+    <form method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <input type="submit" class="btn btn-primary" value="Login">
+    </form>
+  </div>
+
+
+</div>
+
+<script>
+  //get the graphql_url using django template lang.
+  var graphql_url = "{% url 'graphql' %}"
+  var background_image = `url("{% static 'rooms/backgrounds/restraunt.png' %}")`;
+  var background_image = `url("{% static 'rooms/backgrounds/main_background.png' %}")`;
+  var csrf_token = "{{ csrf_token }}";
+  $('#main').css('background-image', background_image);
+</script>
+{% endblock %}

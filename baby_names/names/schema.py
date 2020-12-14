@@ -1,5 +1,6 @@
 import graphene
 from graphene_django.types import DjangoObjectType, DjangoObjectType
+from .name_models.model_server import NameModels
 
 from .models import (
     BabyName,
@@ -24,29 +25,15 @@ class ReactionType(DjangoObjectType):
 
 
 def get_name_rec(user, sex):
-    user_reactions = (
-        UserNameReaction
-        .objects
-        .filter(user=user)
-
-    )
-    qs = (
-        BabyName
-        .objects
-        .filter(sex=sex)
-        .exclude(
-            baby_name_reaction__in=user_reactions
-        )
-        .order_by('?')
-    )
-    return qs.first()
+    model_server = NameModels(user, sex)
+    return model_server.get_next_name()
 
 
 class Query(graphene.ObjectType):
     nameRecommendation = graphene.Field(BabyNameType, sex=graphene.String())
     reactions = graphene.List(ReactionType)
     userReactions = graphene.List(
-        UserNameReactionType, reaction_id=graphene.Int()
+        UserNameReactionType
     )
 
     def resolve_reactions(self, info, *kwargs):
@@ -62,17 +49,14 @@ class Query(graphene.ObjectType):
         return None
 
     def resolve_userReactions(self, info, **kwargs):
-        reaction_id = kwargs.get('reaction_id')
         if not info.context.user.is_authenticated:
             return None
         else:
-            reation = Reaction.objects.get(pk=reaction_id)
             reactions = (
                 UserNameReaction
                 .objects
                 .filter(
                     user=info.context.user,
-                    reaction=reation
                 )
                 .all()
             )

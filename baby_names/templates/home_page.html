@@ -2,5 +2,39 @@
 {% load static %}
 
 {% block content %}
-<h1>This is the home page</h1>
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <title>Baby Names</title>
+</head>
+
+<body>
+    <h1>Baby Names</h1>
+
+    <div id='baby_name_container' class="conainter">
+
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    //get the graphql_url using django template lang.
+    var graphql_url = "{% url 'graphql' %}"
+    var csrf_token = "{{ csrf_token }}";
+</script>
+<script src="{% static "baby_names/js/baby_name.js" %}"></script>
+<script>
+    var babyName = new BabyName('#baby_name_container', 1);
+    babyName.display_name();
+</script>
+
+</html>
 {% endblock %}

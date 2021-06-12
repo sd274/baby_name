@@ -1,0 +1,18 @@
+baby_name_id,baby_name,reaction_id,reaction,recommendation_type,user,time
+4784,ADEOLUWA,3,maybe,RandomRecommendationModel,1,2021-06-12 22:27:18.961610
+4784,ADEOLUWA,3,maybe,RandomRecommendationModel,1,2021-06-12 22:27:35.112214
+1801,DONNACHA,2,no,ClusterNames,1,2021-06-12 22:27:49.499212
+4334,JOHNNIE,3,maybe,RandomRecommendationModel,1,2021-06-12 22:29:57.321997
+387,IBRAHEEM,3,maybe,ClusterNames,1,2021-06-12 22:30:20.340430
+5976,TAUTVYDAS,2,no,RandomRecommendationModel,1,2021-06-12 22:31:23.568683
+1160,ARTIE,3,maybe,SameFirstLetterModel,1,2021-06-12 22:34:22.099201
+2897,MANKIRAT,3,maybe,ClusterNames,1,2021-06-12 22:34:37.901971
+4743,ZIYA,2,no,RandomRecommendationModel,1,2021-06-12 22:35:44.289632
+420,NIALL,2,no,RandomRecommendationModel,1,2021-06-12 22:38:05.038418
+420,NIALL,2,no,RandomRecommendationModel,1,2021-06-12 22:38:24.454783
+1123,REGGIE-LEE,2,no,ClusterNames,1,2021-06-12 22:38:49.801781
+4859,ANDREW-JOHN,3,maybe,SameFirstLetterModel,1,2021-06-12 22:39:12.635897
+2457,ALEXI,2,no,RandomRecommendationModel,1,2021-06-12 22:39:45.772854
+5663,NAWAF,2,no,RandomRecommendationModel,1,2021-06-12 22:41:14.496955
+364,MARSHALL,3,maybe,ClusterNames,1,2021-06-12 22:41:34.865792
+75,JESSE,3,maybe,RandomRecommendationModel,1,2021-06-12 22:41:41.972390

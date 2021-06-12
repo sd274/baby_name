@@ -134,11 +134,12 @@ class ClusterNames(NameModel):
         qs = (
             BabyName
             .objects
-            .filter(sex=self.sex)
+            # .filter(sex=self.sex)
             .all()
             .values()
         )
         df = pd.DataFrame(list(qs)).set_index('id')
+        print(df.head())
         df['name_length'] = df.name.str.len()
         df['first_letter'] = df.name.str[0]
         kmeans = KMeans(n_clusters=5).fit(df[['name_length']])
@@ -151,9 +152,11 @@ class ClusterNames(NameModel):
         Returns:
             success (bool): if the model correctly prepared
         """
+        print('prepping clusters')
         try:
             df = self.generate_clusters()
             df.to_csv(os.path.join(self.prep_folder, 'cluster_model.csv'))
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False

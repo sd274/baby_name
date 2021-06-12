@@ -40,7 +40,7 @@ BabyName = function (_target_div, _user_id) {
     self.send_reaction = function (babyNameId, reactionId) {
         var query = `
         mutation react {
-            userReaction(input:{babyNameId:$babyNameId$,reactionId:$reactionId$}){
+            userReaction(input:{babyNameId:$babyNameId$,reactionId:$reactionId$,recommendationType: "$recommendationType$"}){
               ok
               userNameReaction{
                 id
@@ -54,6 +54,7 @@ BabyName = function (_target_div, _user_id) {
         query = query
             .replace('$babyNameId$', babyNameId)
             .replace('$reactionId$', reactionId)
+            .replace('$recommendationType$', self.current_recommendation_type)
         $.ajax({
             url: graphql_url,
             contentType: "application/json",
@@ -220,6 +221,7 @@ BabyName = function (_target_div, _user_id) {
               id	
               sex
               name
+              recommendationType
             }
           }
         `
@@ -234,10 +236,14 @@ BabyName = function (_target_div, _user_id) {
                 query: query
             }),
             success: function (result) {
+                console.log(result);
                 var div = self.display_name_div;
                 $(div).empty();
                 var name = result.data.nameRecommendation;
                 self.current_name_id = name.id;
+                current_recommendation_type = name.recommendationType
+                self.current_recommendation_type = current_recommendation_type;
+                
                 var to_append = "<h2>What do you think of?</h1>"
                 to_append += "<div class='display_baby_name_div'><h1>" + titleCase(name.name) + "</h1></div>"
                 $(div).append(to_append);

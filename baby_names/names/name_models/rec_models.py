@@ -160,3 +160,56 @@ class ClusterNames(NameModel):
         except Exception as e:
             print(e)
             return False
+
+
+class NameOrigin(NameModel):
+
+    def get_name_recommendation(self):
+        user_reactions_df = (
+            pd.DataFrame(list(
+                self.user_reactions.all().values(
+                    'name', 'name__name', 'reaction', 'reaction__reaction'
+                )
+            ))
+            .query("reaction__reaction=='yes' or reaction__reaction=='maybe'")
+        )
+        data_dir = os.path.join(os.path.dirname(__file__), 'model_store')
+        name_origins = pd.read_csv(
+            os.path.join(
+                data_dir,
+                'name_origin_long.csv'
+            )
+        )
+        user_reactions_df = user_reactions_df.merge(
+            name_origins,
+            left_on = 'name__name',
+            right_on = 'name',
+            how='inner'
+        )
+
+        popular_usages = (
+            user_reactions_df
+            .groupby('usage')
+            .agg({'name_x':'count'})
+            .sort_values('name_x', ascending=False)
+            .head()
+            .sample(1)
+            .reset_index()
+            .iloc[0]
+            .usage
+        )   
+
+        
+        new_name = (
+            name_origins
+            .query("usage==@popular_usages")
+            .sample(1)
+            .name
+            .iloc[0]
+        )
+
+        print('NEW NAME: '+ new_name)
+
+        qs = BabyName.objects.filter(name=new_name).first()
+        return qs
+        

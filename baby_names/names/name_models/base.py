@@ -78,8 +78,9 @@ class ServeModels:
         print(rec)
         if rec is None:
             print('using default model')
-            rec = self.default_model(self.user, self.sex).get_name_recommendation()
-            model_name = self.default_model.model_name
+            model_instance = self.default_model(self.user, self.sex)
+            rec = model_instance.get_name_recommendation()
+            model_name = model_instance.model_name
         return rec, model_name
 
     def prep_models(self):

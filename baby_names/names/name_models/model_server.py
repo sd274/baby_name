@@ -1,7 +1,8 @@
 from .rec_models import (
     SameFirstLetterModel,
     ClusterNames,
-    RandomRecommendationModel
+    RandomRecommendationModel,
+    NameOrigin
 )
 from .base import ServeModels
 import pandas as pd
@@ -12,9 +13,10 @@ class NameModels(ServeModels):
 
     def set_models(self):
         return [
-            RandomRecommendationModel,
-            SameFirstLetterModel,
-            ClusterNames,
+            # RandomRecommendationModel,
+            # SameFirstLetterModel,
+            # ClusterNames,
+            NameOrigin,
         ], RandomRecommendationModel
 
 
@@ -38,8 +40,8 @@ class BanditServer(NameModels):
             .agg({'total':'sum', 'success':'sum'})
             .to_dict(orient='index')
         )
-        a = [log_data.get(model, {'total':0})['total']  for model in model_names]
-        b = [log_data.get(model, {'success':0})['success']  for model in model_names]
+        a = [log_data.get(model, {'total':1})['total']  for model in model_names]
+        b = [log_data.get(model, {'success':1})['success']  for model in model_names]
         theta = np.random.beta(a, b)
         next_model = self.models[np.argmax(theta)]
         print(f'bandit choice: {next_model}')
